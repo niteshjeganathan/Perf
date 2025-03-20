@@ -227,3 +227,11 @@ Thu May 26 21:11:07 EDT 2011
 ```
 
 ## Using perf record
+* Collects detailed event samples for deeper analysis
+* Records events over time and stores them in a file (perf.data)
+* Suitable for in depth profiling
+* By default, the event chosen is cycle counting
+* By default, it operates in per-thread mode (-a for per-cpu mode)
+
+
+
