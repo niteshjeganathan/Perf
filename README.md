@@ -178,3 +178,52 @@ $ perf stat -e cycles:u dd if=/dev/zero of=/dev/null count=100000
 $ perf stat -e cycles:k dd if=/dev/zero of=/dev/null count=100000
 ```
 
+### Options Controlling Environment Selection
+* Per-Thread Mode
+  * Counter only monitors the execution of a designated thread
+  * When the thread is scheduled out, monitoring stops
+  * When a thread is migrated from one processor to another, counters are saved on the current processor and are restored on the new one
+* Per-Process Mode
+  * Variant of per-thread
+  * All threads of the process are monitored
+  * Counts and samples are aggregated at the process level
+* Per-CPU Mode
+  * All threads running on the designated processors are monitored
+  * Counts and samples are thus aggregated per CPU
+* System-Wide Mode
+  * Captures performance data from all CPUs
+ 
+### Options Controlling Output
+* Pretty printing large numbers: -B
+```bash
+LC_NUMERIC=en_US.UTF8 perf stat -B -e cycles:u,instructions:u dd if=/dev/zero of=/dev/null count=10000000
+
+100000+0 records in
+100000+0 records out
+51200000 bytes (51 MB) copied, 0.0971547 s, 527 MB/s
+
+ Performance counter stats for 'dd if=/dev/zero of=/dev/null count=100000':
+
+       96,551,461 cycles
+       38,176,009 instructions             #      0.395 IPC
+
+       0.098556460  seconds time elapsed
+```
+* Machine readable output: -x
+```bash
+perf stat  -x, date
+
+Thu May 26 21:11:07 EDT 2011
+884,cache-misses
+32559,cache-references
+<not counted>,branch-misses
+<not counted>,branches
+<not counted>,instructions
+<not counted>,cycles
+188,page-faults
+2,CPU-migrations
+0,context-switches
+2.350642,task-clock-msecs
+```
+
+## Using perf record
